@@ -8,16 +8,21 @@ def create_user(
     username: str,
     password: str,
     email: str | None = None,
-    first_name: str = "",
-    last_name: str = ""
+    first_name: str | None = None,
+    last_name: str | None = None
 ) -> User:
-    return User.objects.create_user(
-        username=username,
-        password=password,
-        email=email,
-        first_name=first_name,
-        last_name=last_name
-    )
+    user = {
+        "username": username,
+        "password": password,
+    }
+    if email is not None:
+        user["email"] = email
+    if first_name is not None:
+        user["first_name"] = first_name
+    if last_name is not None:
+        user["last_name"] = last_name
+
+    return User.objects.create_user(**user)
 
 
 def get_user(user_id: int) -> User:
